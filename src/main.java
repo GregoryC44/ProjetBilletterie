@@ -1,10 +1,9 @@
 
+import config.Reader;
 import controleur.CtrlPrincipal;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Properties;
 import javax.swing.JOptionPane;
 import modele.dao.Jdbc;
 
@@ -23,38 +22,26 @@ public class main {
 
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
 
-        final Properties prop = new Properties();
-        InputStream input = null;
+        
 
-        try {
-
-            input = new FileInputStream("src/config/accessDB.properties");
-
-            // load a properties file
-            prop.load(input);
-
-            // get the property value and print it out
-            String driver = prop.getProperty("sgbd.driver");
-            String jdbc = prop.getProperty("sgbd.jdbc");
-            String pass = prop.getProperty("sgbd.pass");
-            String databasename = prop.getProperty("sgbd.databasename");
-            String login = prop.getProperty("sgbd.login");
-            String password = prop.getProperty("sgbd.password");
-
-            Jdbc.creer(driver, jdbc, pass, databasename, login, password);
-
-        } catch (final IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
+        // get the property value and print it out
+        InputStream input = main.class.getResourceAsStream("config/accessDB.properties");
+        String driver = Reader.readString("sgbd.driver");
+        String jdbc = Reader.readString("sgbd.jdbc");
+        String pass = Reader.readString("sgbd.pass");
+        String databasename = Reader.readString("sgbd.databasename");
+        String login = Reader.readString("sgbd.login");
+        String password = Reader.readString("sgbd.password");
+        Jdbc.creer(driver, jdbc, pass, databasename, login, password); 
+        if (input != null) {
+            try {
+                input.close();
+            } catch (final IOException e) {
+                e.printStackTrace();
             }
         }
 

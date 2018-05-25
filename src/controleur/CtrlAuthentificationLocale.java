@@ -1,5 +1,6 @@
 package controleur;
 
+import config.Reader;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -61,26 +62,6 @@ public class CtrlAuthentificationLocale extends ControleurGenerique implements A
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.getVue().getjButtonConnexion())) {
 
-            Properties connexionProperties = new Properties();
-            InputStream input = null;
-
-            try {
-                input = new FileInputStream("src/config/accessDB.properties");
-
-                // load properties file
-                connexionProperties.load(input);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } finally {
-                if (input != null) {
-                    try {
-                        input.close();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-
             try {
                 String identifiant = this.getVue().getjTextFieldNomUtilisateur().getText();
                 String motDePasse = this.getVue().getjPasswordFieldMotDePasse().getText();
@@ -103,7 +84,7 @@ public class CtrlAuthentificationLocale extends ControleurGenerique implements A
 
                 /* Compare les éléments du fichier properties à ce qui est récupérer des jTextField
                 Si les éléments des jTextFields corresepondent, renvoie vers la méthode CONNEXION_MENU_PRINCPAL du controller principal */
-                if (connexionProperties.getProperty("login").equals(sb.toString()) && connexionProperties.getProperty("password").equals(sb2.toString())) {
+                if (Reader.readString("login").equals(sb.toString()) && Reader.readString("password").equals(sb2.toString())) {
                     try {
                         Jdbc.getInstance().connecter();
                     } catch (ClassNotFoundException ex) {

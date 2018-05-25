@@ -1,5 +1,6 @@
 package controleur;
 
+import config.Reader;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -63,37 +64,14 @@ public class CtrlConnexionDistante extends ControleurGenerique implements Action
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.getVue().getjButtonConnexion())) {
 
-            final Properties prop = new Properties();
-            InputStream input = null;
-
-            try {
-
-                input = new FileInputStream("src/config/accessDB.properties");
-
-                // load a properties file
-                prop.load(input);
-
-                // get the property value and print it out
-                String driver = prop.getProperty("dbdist.driver");
-                String jdbc = prop.getProperty("dbdist.jdbc");
-                String pass = prop.getProperty("dbdist.pass");
-                String databasename = prop.getProperty("dbdist.databasename");
-                String login = prop.getProperty("dbdist.login");
-                String password = prop.getProperty("dbdist.password");
-
-                Jdbc.creer(driver, jdbc, pass, databasename, login, password);
-
-            } catch (final IOException ex) {
-                ex.printStackTrace();
-            } finally {
-                if (input != null) {
-                    try {
-                        input.close();
-                    } catch (final IOException ex2) {
-                        ex2.printStackTrace();
-                    }
-                }
-            }
+            // get the property value and print it out
+            String driver = Reader.readString("dbdist.driver");
+            String jdbc = Reader.readString("dbdist.jdbc");
+            String pass = Reader.readString("dbdist.pass");
+            String databasename = Reader.readString("dbdist.databasename");
+            String login = Reader.readString("dbdist.login");
+            String password = Reader.readString("dbdist.password");
+            Jdbc.creer(driver, jdbc, pass, databasename, login, password); 
 
             try {
                 String motDePasse = this.getVue().getjPasswordFieldMotDePasse().getText();

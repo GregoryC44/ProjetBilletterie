@@ -39,6 +39,7 @@ public class CtrlPrincipal {
                 break;
             case MENU_CONNEXION_DISTANTE: // Active la vue pour se connecter à la base distante
                 connexionDistanteAfficher();
+                break;
             case MENU_REPRESENTATION_AFFICHER: // activation de vueRepresentation depuis vueMenu
                 representationAfficher();
                 break;
@@ -47,8 +48,10 @@ public class CtrlPrincipal {
                 break;
             case VENTES_QUITTER:
                 venteQuitter();
+                break;
             case CONNEXION_DISTANTE_QUITTER: // Active la vue pour se connecter à la base distante
                 connexionDistanteQuitter();
+                break;
             case MENU_QUITTER: // fin de l'application depuis le menu principal
                 menuFichierQuitter();
                 break;
@@ -110,6 +113,7 @@ public class CtrlPrincipal {
         }
         ctrlConnexionDistante.getVue().setEnabled(false);
         ctrlConnexionDistante.getVue().setVisible(false);
+        ctrlMenuPrincipal = null;
         ctrlMenuPrincipal.getVue().setEnabled(true);
     }
     
@@ -183,6 +187,7 @@ public class CtrlPrincipal {
         ctrlRepresentation.getVue().setEnabled(true);
         ctrlVentePlace.getVue().setEnabled(false);
         ctrlVentePlace.getVue().setVisible(false);
+        ctrlVentePlace = null;
     }
     
     /**
